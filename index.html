@@ -24,6 +24,12 @@
 
   .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
 
+  /* Mode Toggle */
+  .mode-toggle { display: flex; gap: 0; margin-bottom: 24px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; width: fit-content; }
+  .mode-btn { background: var(--surface); color: var(--muted); padding: 10px 24px; cursor: pointer; font-size: 14px; font-weight: 600; border: none; transition: all 0.15s; }
+  .mode-btn.active { background: var(--accent); color: white; }
+  .mode-btn:hover:not(.active) { background: var(--surface2); color: var(--text); }
+
   /* KPI Bar */
   .kpi-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
   .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
@@ -31,16 +37,17 @@
   .kpi-value { font-size: 28px; font-weight: 700; }
   .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-  /* Proposal Selector */
-  .proposal-selector { margin-bottom: 24px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .proposal-tab { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
-  .proposal-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
-  .proposal-tab:hover:not(.active) { border-color: var(--accent2); color: var(--text); }
+  /* Selector */
+  .selector { margin-bottom: 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .selector-tab { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+  .selector-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .selector-tab:hover:not(.active) { border-color: var(--accent2); color: var(--text); }
 
   /* Grid Layout */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
   .grid-full { margin-bottom: 20px; }
-  @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
 
   /* Cards */
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
@@ -52,7 +59,7 @@
   .heatmap-label { width: 200px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
   .heatmap-bar-wrap { flex: 1; height: 28px; background: var(--surface2); border-radius: 4px; overflow: hidden; position: relative; }
   .heatmap-bar { height: 100%; border-radius: 4px; transition: width 0.4s ease; min-width: 2px; }
-  .heatmap-count { width: 40px; font-size: 12px; text-align: right; color: var(--muted); flex-shrink: 0; }
+  .heatmap-count { width: 50px; font-size: 12px; text-align: right; color: var(--muted); flex-shrink: 0; }
 
   /* Timeline */
   .timeline-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--surface2); gap: 12px; }
@@ -61,7 +68,7 @@
   .timeline-event { font-size: 13px; flex: 1; }
   .timeline-meta { font-size: 11px; color: var(--muted); }
 
-  /* Visitor Table */
+  /* Tables */
   .vtable { width: 100%; border-collapse: collapse; font-size: 13px; }
   .vtable th { text-align: left; padding: 10px 12px; color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
   .vtable td { padding: 10px 12px; border-bottom: 1px solid var(--surface2); }
@@ -72,16 +79,18 @@
   .badge-mobile { background: rgba(99,102,241,0.15); color: var(--accent2); }
   .badge-desktop { background: rgba(34,197,94,0.15); color: var(--cool); }
   .badge-event { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .badge-open { background: rgba(34,197,94,0.15); color: var(--cool); }
+  .badge-email { background: rgba(245,158,11,0.15); color: var(--warm); }
+  .badge-campaign { background: rgba(99,102,241,0.15); color: var(--accent2); }
 
   /* Loading */
   .loading { text-align: center; padding: 60px; color: var(--muted); }
   .loading .spinner { width: 32px; height: 32px; border: 3px solid var(--surface2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Empty state */
   .empty { text-align: center; padding: 40px; color: var(--muted); font-size: 14px; }
 
-  /* Chart area for time distribution */
+  /* Hour chart */
   .hour-chart { display: flex; align-items: flex-end; gap: 4px; height: 120px; padding-top: 8px; }
   .hour-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
   .hour-bar { width: 100%; border-radius: 3px 3px 0 0; transition: height 0.4s ease; min-height: 2px; }
@@ -91,6 +100,11 @@
   .device-stat { text-align: center; }
   .device-pct { font-size: 32px; font-weight: 700; }
   .device-label { font-size: 12px; color: var(--muted); }
+
+  /* Campaign-specific */
+  .acct-open-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  .status-live { color: var(--cool); }
+  .status-test { color: var(--warm); }
 </style>
 </head>
 <body>
@@ -104,8 +118,12 @@
 </div>
 
 <div class="container">
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="modeProposals" onclick="setMode('proposals')">Proposals</button>
+    <button class="mode-btn" id="modeCampaigns" onclick="setMode('campaigns')">Campaigns</button>
+  </div>
   <div class="kpi-bar" id="kpiBar"><div class="loading"><div class="spinner"></div>Loading...</div></div>
-  <div class="proposal-selector" id="proposalSelector"></div>
+  <div class="selector" id="selectorBar"></div>
   <div id="dashContent"></div>
 </div>
 
@@ -113,9 +131,11 @@
 const SUPABASE_URL = 'https://cnplogkxbjecdeeritdl.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNucGxvZ2t4YmplY2RlZXJpdGRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMjAzMTUsImV4cCI6MjA4Nzg5NjMxNX0.WJ6edMljHiY-fku9G2OWm83y5wHWI5yZHvxtpYMCuWU';
 
-let allData = [];
-let campaignData = [];
-let activeProposal = null;
+let proposalData = [];
+let campaignEvents = [];
+let campaignSends = [];
+let activeMode = 'proposals';
+let activeItem = null;
 
 async function sbFetch(table, params = '') {
   const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {
@@ -124,47 +144,69 @@ async function sbFetch(table, params = '') {
   return r.json();
 }
 
-async function loadData() {
-  document.getElementById('kpiBar').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
-  allData = await sbFetch('proposal_engagement', 'select=*&order=created_at.desc&limit=5000');
-  campaignData = await sbFetch('campaign_events', 'select=*&order=created_at.desc&limit=1000');
-  document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
-  renderKPIs();
-  renderProposalTabs();
-  renderDashboard();
+function setMode(mode) {
+  activeMode = mode;
+  activeItem = null;
+  document.getElementById('modeProposals').classList.toggle('active', mode === 'proposals');
+  document.getElementById('modeCampaigns').classList.toggle('active', mode === 'campaigns');
+  renderAll();
 }
 
-function renderKPIs() {
-  const proposals = [...new Set(allData.map(d => d.proposal_id))];
-  const sessions = [...new Set(allData.map(d => d.session_id))];
-  const ips = [...new Set(allData.filter(d => d.visitor_ip).map(d => d.visitor_ip))];
-  const mobileCount = allData.filter(d => d.user_agent && /mobile|android|iphone|ipad/i.test(d.user_agent));
+async function loadData() {
+  document.getElementById('kpiBar').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
+  [proposalData, campaignEvents, campaignSends] = await Promise.all([
+    sbFetch('proposal_engagement', 'select=*&order=created_at.desc&limit=5000'),
+    sbFetch('campaign_events', 'select=*&order=opened_at.desc&limit=5000'),
+    sbFetch('campaign_sends', 'select=*&order=sent_at.desc&limit=5000')
+  ]);
+  document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  renderAll();
+}
+
+function renderAll() {
+  if (activeMode === 'proposals') {
+    renderProposalKPIs();
+    renderProposalTabs();
+    renderProposalDashboard();
+  } else {
+    renderCampaignKPIs();
+    renderCampaignTabs();
+    renderCampaignDashboard();
+  }
+}
+
+// ─── PROPOSAL MODE ────────────────────────────────────────
+
+function renderProposalKPIs() {
+  const proposals = [...new Set(proposalData.map(d => d.proposal_id))];
+  const sessions = [...new Set(proposalData.map(d => d.session_id))];
+  const ips = [...new Set(proposalData.filter(d => d.visitor_ip).map(d => d.visitor_ip))];
+  const mobileCount = proposalData.filter(d => d.user_agent && /mobile|android|iphone|ipad/i.test(d.user_agent));
   const mobileSessions = [...new Set(mobileCount.map(d => d.session_id))].length;
   const desktopSessions = sessions.length - mobileSessions;
-  const timeEvents = allData.filter(d => d.event_type === 'time_on_slide' && d.duration_seconds);
+  const timeEvents = proposalData.filter(d => d.event_type === 'time_on_slide' && d.duration_seconds);
   const totalTime = timeEvents.reduce((s, d) => s + Number(d.duration_seconds), 0);
 
   document.getElementById('kpiBar').innerHTML = `
     <div class="kpi-card"><div class="kpi-label">Proposals</div><div class="kpi-value">${proposals.length}</div><div class="kpi-sub">tracked</div></div>
     <div class="kpi-card"><div class="kpi-label">Sessions</div><div class="kpi-value">${sessions.length}</div><div class="kpi-sub">${ips.length} unique IPs</div></div>
-    <div class="kpi-card"><div class="kpi-label">Total Events</div><div class="kpi-value">${allData.length}</div><div class="kpi-sub">${campaignData.length} campaign</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total Events</div><div class="kpi-value">${proposalData.length}</div><div class="kpi-sub">proposal events</div></div>
     <div class="kpi-card"><div class="kpi-label">Mobile / Desktop</div><div class="kpi-value">${mobileSessions} / ${desktopSessions}</div><div class="kpi-sub">sessions</div></div>
     <div class="kpi-card"><div class="kpi-label">Dwell Time</div><div class="kpi-value">${totalTime > 60 ? Math.round(totalTime / 60) + 'm' : totalTime + 's'}</div><div class="kpi-sub">total time on slides</div></div>
   `;
 }
 
 function renderProposalTabs() {
-  const proposals = [...new Set(allData.map(d => d.proposal_id))];
-  if (!activeProposal && proposals.length) activeProposal = proposals[0];
-  const tabs = proposals.map(p => {
-    const count = allData.filter(d => d.proposal_id === p).length;
-    return `<div class="proposal-tab ${p === activeProposal ? 'active' : ''}" onclick="activeProposal='${p}';renderProposalTabs();renderDashboard()">${p} <span style="opacity:0.6">(${count})</span></div>`;
+  const proposals = [...new Set(proposalData.map(d => d.proposal_id))];
+  if (!activeItem && proposals.length) activeItem = proposals[0];
+  document.getElementById('selectorBar').innerHTML = proposals.map(p => {
+    const count = proposalData.filter(d => d.proposal_id === p).length;
+    return `<div class="selector-tab ${p === activeItem ? 'active' : ''}" onclick="activeItem='${p}';renderProposalTabs();renderProposalDashboard()">${p} <span style="opacity:0.6">(${count})</span></div>`;
   }).join('');
-  document.getElementById('proposalSelector').innerHTML = tabs;
 }
 
-function renderDashboard() {
-  const data = allData.filter(d => d.proposal_id === activeProposal);
+function renderProposalDashboard() {
+  const data = proposalData.filter(d => d.proposal_id === activeItem);
   if (!data.length) { document.getElementById('dashContent').innerHTML = '<div class="empty">No data for this proposal</div>'; return; }
 
   document.getElementById('dashContent').innerHTML = `
@@ -189,81 +231,48 @@ function renderDashboard() {
   renderHourChart(data);
   renderDeviceChart(data);
   renderVisitorTable(data);
-  renderTimeline(data);
+  renderProposalTimeline(data);
 }
 
 function renderHeatmap(data) {
   const views = data.filter(d => d.event_type === 'slide_viewed');
   const slides = {};
-  views.forEach(d => {
-    const key = d.slide_number;
-    if (!slides[key]) slides[key] = { title: d.slide_title || `Slide ${key}`, count: 0 };
-    slides[key].count++;
-  });
+  views.forEach(d => { const k = d.slide_number; if (!slides[k]) slides[k] = { title: d.slide_title || `Slide ${k}`, count: 0 }; slides[k].count++; });
   const sorted = Object.entries(slides).sort((a, b) => Number(a[0]) - Number(b[0]));
   const max = Math.max(...sorted.map(s => s[1].count), 1);
-
   document.getElementById('heatmap').innerHTML = sorted.length ? sorted.map(([num, s]) => {
-    const pct = (s.count / max * 100);
-    const intensity = Math.round(pct);
-    const color = intensity > 70 ? 'var(--hot)' : intensity > 40 ? 'var(--warm)' : 'var(--accent)';
-    return `<div class="heatmap-row">
-      <div class="heatmap-label" title="${s.title}">${num}. ${s.title}</div>
-      <div class="heatmap-bar-wrap"><div class="heatmap-bar" style="width:${pct}%;background:${color}"></div></div>
-      <div class="heatmap-count">${s.count}</div>
-    </div>`;
+    const pct = (s.count / max * 100), color = pct > 70 ? 'var(--hot)' : pct > 40 ? 'var(--warm)' : 'var(--accent)';
+    return `<div class="heatmap-row"><div class="heatmap-label" title="${s.title}">${num}. ${s.title}</div><div class="heatmap-bar-wrap"><div class="heatmap-bar" style="width:${pct}%;background:${color}"></div></div><div class="heatmap-count">${s.count}</div></div>`;
   }).join('') : '<div class="empty">No slide views</div>';
 }
 
 function renderTimeHeatmap(data) {
   const times = data.filter(d => d.event_type === 'time_on_slide' && d.duration_seconds);
   const slides = {};
-  times.forEach(d => {
-    const key = d.slide_number;
-    if (!slides[key]) slides[key] = { title: d.slide_title || `Slide ${key}`, total: 0 };
-    slides[key].total += Number(d.duration_seconds);
-  });
+  times.forEach(d => { const k = d.slide_number; if (!slides[k]) slides[k] = { title: d.slide_title || `Slide ${k}`, total: 0 }; slides[k].total += Number(d.duration_seconds); });
   const sorted = Object.entries(slides).sort((a, b) => Number(a[0]) - Number(b[0]));
   const max = Math.max(...sorted.map(s => s[1].total), 1);
-
   document.getElementById('timeHeatmap').innerHTML = sorted.length ? sorted.map(([num, s]) => {
-    const pct = (s.total / max * 100);
-    const intensity = Math.round(pct);
-    const color = intensity > 70 ? 'var(--hot)' : intensity > 40 ? 'var(--warm)' : 'var(--cool)';
-    return `<div class="heatmap-row">
-      <div class="heatmap-label" title="${s.title}">${num}. ${s.title}</div>
-      <div class="heatmap-bar-wrap"><div class="heatmap-bar" style="width:${pct}%;background:${color}"></div></div>
-      <div class="heatmap-count">${Math.round(s.total)}s</div>
-    </div>`;
+    const pct = (s.total / max * 100), color = pct > 70 ? 'var(--hot)' : pct > 40 ? 'var(--warm)' : 'var(--cool)';
+    return `<div class="heatmap-row"><div class="heatmap-label" title="${s.title}">${num}. ${s.title}</div><div class="heatmap-bar-wrap"><div class="heatmap-bar" style="width:${pct}%;background:${color}"></div></div><div class="heatmap-count">${Math.round(s.total)}s</div></div>`;
   }).join('') : '<div class="empty">No time data yet</div>';
 }
 
 function renderHourChart(data) {
   const hours = new Array(24).fill(0);
-  data.forEach(d => { const h = new Date(d.created_at).getHours(); hours[h]++; });
+  data.forEach(d => { hours[new Date(d.created_at).getHours()]++; });
   const max = Math.max(...hours, 1);
-
-  document.getElementById('hourChart').innerHTML = `<div class="hour-chart">${
-    hours.map((c, h) => {
-      const pct = (c / max * 100);
-      const color = c > 0 ? 'var(--accent)' : 'var(--surface2)';
-      return `<div class="hour-bar-wrap"><div class="hour-bar" style="height:${Math.max(pct, 3)}%;background:${color}" title="${h}:00 — ${c} events"></div><div class="hour-label">${h}</div></div>`;
-    }).join('')
-  }</div>`;
+  document.getElementById('hourChart').innerHTML = `<div class="hour-chart">${hours.map((c, h) => {
+    const pct = (c / max * 100), color = c > 0 ? 'var(--accent)' : 'var(--surface2)';
+    return `<div class="hour-bar-wrap"><div class="hour-bar" style="height:${Math.max(pct, 3)}%;background:${color}" title="${h}:00 — ${c} events"></div><div class="hour-label">${h}</div></div>`;
+  }).join('')}</div>`;
 }
 
 function renderDeviceChart(data) {
   const sessions = {};
-  data.forEach(d => {
-    if (!sessions[d.session_id]) {
-      const mobile = d.user_agent && /mobile|android|iphone|ipad/i.test(d.user_agent);
-      sessions[d.session_id] = mobile ? 'mobile' : 'desktop';
-    }
-  });
+  data.forEach(d => { if (!sessions[d.session_id]) { sessions[d.session_id] = d.user_agent && /mobile|android|iphone|ipad/i.test(d.user_agent) ? 'mobile' : 'desktop'; } });
   const total = Object.keys(sessions).length || 1;
-  const mobile = Object.values(sessions).filter(v => v === 'mobile').length;
-  const desktop = total - mobile;
-
+  const mobile = Object.values(sessions).filter(v => v === 'mobile').length, desktop = total - mobile;
   document.getElementById('deviceChart').innerHTML = `<div class="device-chart">
     <div class="device-stat"><div class="device-pct" style="color:var(--accent2)">${Math.round(mobile/total*100)}%</div><div class="device-label">Mobile (${mobile})</div></div>
     <div style="width:1px;height:50px;background:var(--border)"></div>
@@ -275,32 +284,15 @@ function renderVisitorTable(data) {
   const sessions = {};
   data.forEach(d => {
     if (!sessions[d.session_id]) sessions[d.session_id] = { ip: d.visitor_ip, ua: d.user_agent, events: 0, slides: new Set(), first: d.created_at, last: d.created_at };
-    const s = sessions[d.session_id];
-    s.events++;
+    const s = sessions[d.session_id]; s.events++;
     if (d.slide_number !== null) s.slides.add(d.slide_number);
     if (d.created_at < s.first) s.first = d.created_at;
     if (d.created_at > s.last) s.last = d.created_at;
   });
-
   const rows = Object.entries(sessions).sort((a, b) => new Date(b[1].last) - new Date(a[1].last));
   const isMobile = ua => ua && /mobile|android|iphone|ipad/i.test(ua);
-  const parseDevice = ua => {
-    if (!ua) return 'Unknown';
-    if (/iPhone/i.test(ua)) return 'iPhone';
-    if (/iPad/i.test(ua)) return 'iPad';
-    if (/Android/i.test(ua)) return 'Android';
-    if (/Mac/i.test(ua)) return 'Mac';
-    if (/Windows/i.test(ua)) return 'Windows';
-    return 'Other';
-  };
-  const parseBrowser = ua => {
-    if (!ua) return '';
-    if (/CriOS|Chrome/i.test(ua)) return 'Chrome';
-    if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'Safari';
-    if (/Firefox/i.test(ua)) return 'Firefox';
-    if (/Edge/i.test(ua)) return 'Edge';
-    return '';
-  };
+  const parseDevice = ua => { if (!ua) return 'Unknown'; if (/iPhone/i.test(ua)) return 'iPhone'; if (/iPad/i.test(ua)) return 'iPad'; if (/Android/i.test(ua)) return 'Android'; if (/Mac/i.test(ua)) return 'Mac'; if (/Windows/i.test(ua)) return 'Windows'; return 'Other'; };
+  const parseBrowser = ua => { if (!ua) return ''; if (/CriOS|Chrome/i.test(ua)) return 'Chrome'; if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'Safari'; if (/Firefox/i.test(ua)) return 'Firefox'; if (/Edge/i.test(ua)) return 'Edge'; return ''; };
 
   document.getElementById('visitorTable').innerHTML = `<table class="vtable">
     <thead><tr><th>Session</th><th>IP</th><th>Device</th><th>Slides</th><th>Events</th><th>Last Active</th></tr></thead>
@@ -308,27 +300,251 @@ function renderVisitorTable(data) {
       <td style="font-family:monospace;font-size:11px">${sid.slice(0, 20)}</td>
       <td>${s.ip || '<span style="color:var(--muted)">--</span>'}</td>
       <td>${parseDevice(s.ua)} ${parseBrowser(s.ua)} <span class="badge ${isMobile(s.ua) ? 'badge-mobile' : 'badge-desktop'}">${isMobile(s.ua) ? 'Mobile' : 'Desktop'}</span></td>
-      <td>${s.slides.size}</td>
-      <td>${s.events}</td>
+      <td>${s.slides.size}</td><td>${s.events}</td>
       <td style="font-size:12px;color:var(--muted)">${new Date(s.last).toLocaleString()}</td>
     </tr>`).join('')}</tbody>
   </table>`;
 }
 
-function renderTimeline(data) {
+function renderProposalTimeline(data) {
   const recent = data.slice(0, 50);
   document.getElementById('timeline').innerHTML = recent.map(d => {
     const time = new Date(d.created_at).toLocaleString();
-    const label = d.event_type === 'slide_viewed' ? `Viewed slide ${d.slide_number}` :
-                  d.event_type === 'time_on_slide' ? `Spent ${d.duration_seconds}s on slide ${d.slide_number}` :
-                  d.event_type === 'proposal_opened' ? 'Opened proposal' : d.event_type;
+    const label = d.event_type === 'slide_viewed' ? `Viewed slide ${d.slide_number}` : d.event_type === 'time_on_slide' ? `Spent ${d.duration_seconds}s on slide ${d.slide_number}` : d.event_type === 'proposal_opened' ? 'Opened proposal' : d.event_type;
     const title = d.slide_title ? ` — ${d.slide_title}` : '';
-    return `<div class="timeline-row">
-      <div class="timeline-time">${time}</div>
-      <div class="timeline-event"><span class="badge badge-event">${d.event_type}</span> ${label}${title}</div>
-      <div class="timeline-meta">${d.visitor_ip || ''}</div>
+    return `<div class="timeline-row"><div class="timeline-time">${time}</div><div class="timeline-event"><span class="badge badge-event">${d.event_type}</span> ${label}${title}</div><div class="timeline-meta">${d.visitor_ip || ''}</div></div>`;
+  }).join('');
+}
+
+// ─── CAMPAIGN MODE ────────────────────────────────────────
+
+function renderCampaignKPIs() {
+  const campaigns = [...new Set(campaignEvents.map(d => d.campaign_id))];
+  const uniqueAccounts = [...new Set(campaignEvents.filter(d => d.account_slug && d.account_slug !== 'unknown').map(d => d.account_slug))];
+  const totalOpens = campaignEvents.length;
+  const emailNumbers = [...new Set(campaignEvents.map(d => d.email_number))];
+  const totalSent = campaignSends.length;
+  const openRate = totalSent > 0 ? Math.round((uniqueAccounts.length / totalSent) * 100) : '—';
+
+  // First open / last open
+  const dates = campaignEvents.map(d => new Date(d.opened_at));
+  const firstOpen = dates.length ? new Date(Math.min(...dates)) : null;
+  const lastOpen = dates.length ? new Date(Math.max(...dates)) : null;
+  const lastOpenStr = lastOpen ? timeSince(lastOpen) : '—';
+
+  document.getElementById('kpiBar').innerHTML = `
+    <div class="kpi-card"><div class="kpi-label">Campaigns</div><div class="kpi-value">${campaigns.length}</div><div class="kpi-sub">${emailNumbers.length} email${emailNumbers.length !== 1 ? 's' : ''} tracked</div></div>
+    <div class="kpi-card"><div class="kpi-label">Total Opens</div><div class="kpi-value">${totalOpens}</div><div class="kpi-sub">beacon pixel fires</div></div>
+    <div class="kpi-card"><div class="kpi-label">Unique Accounts</div><div class="kpi-value">${uniqueAccounts.length}</div><div class="kpi-sub">opened at least once</div></div>
+    <div class="kpi-card"><div class="kpi-label">Open Rate</div><div class="kpi-value">${openRate}${openRate !== '—' ? '%' : ''}</div><div class="kpi-sub">${totalSent > 0 ? totalSent + ' sent' : 'no sends logged yet'}</div></div>
+    <div class="kpi-card"><div class="kpi-label">Last Open</div><div class="kpi-value" style="font-size:20px">${lastOpenStr}</div><div class="kpi-sub">${lastOpen ? lastOpen.toLocaleString() : ''}</div></div>
+  `;
+}
+
+function timeSince(date) {
+  const s = Math.floor((new Date() - date) / 1000);
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+
+function renderCampaignTabs() {
+  const campaigns = [...new Set(campaignEvents.map(d => d.campaign_id))];
+  if (!activeItem && campaigns.length) activeItem = campaigns[0];
+  if (!campaigns.length) {
+    document.getElementById('selectorBar').innerHTML = '';
+    return;
+  }
+  document.getElementById('selectorBar').innerHTML = campaigns.map(c => {
+    const count = campaignEvents.filter(d => d.campaign_id === c).length;
+    return `<div class="selector-tab ${c === activeItem ? 'active' : ''}" onclick="activeItem='${c}';renderCampaignTabs();renderCampaignDashboard()">${c} <span style="opacity:0.6">(${count})</span></div>`;
+  }).join('');
+}
+
+function renderCampaignDashboard() {
+  const data = campaignEvents.filter(d => d.campaign_id === activeItem);
+  if (!data.length) { document.getElementById('dashContent').innerHTML = '<div class="empty">No campaign data yet. Send your first email and open it to see beacon events here.</div>'; return; }
+
+  const sends = campaignSends.filter(d => d.campaign_id === activeItem);
+
+  document.getElementById('dashContent').innerHTML = `
+    <div class="grid-2">
+      <div class="card"><div class="card-header">Opens by Account</div><div class="card-body" id="campAccounts"></div></div>
+      <div class="card"><div class="card-header">Opens by Email Number</div><div class="card-body" id="campEmails"></div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div class="card-header">Opens by Hour</div><div class="card-body" id="campHourChart"></div></div>
+      <div class="card"><div class="card-header">Opens by Day</div><div class="card-body" id="campDayChart"></div></div>
+    </div>
+    <div class="grid-full">
+      <div class="card"><div class="card-header">Account Detail <span style="font-size:11px;color:var(--muted)">opens per email</span></div><div class="card-body" id="campAccountTable"></div></div>
+    </div>
+    <div class="grid-full">
+      <div class="card"><div class="card-header">Open Timeline <span style="font-size:11px;color:var(--muted)">latest 50</span></div><div class="card-body" id="campTimeline"></div></div>
+    </div>
+  `;
+
+  renderCampAccounts(data);
+  renderCampEmails(data);
+  renderCampHourChart(data);
+  renderCampDayChart(data);
+  renderCampAccountTable(data, sends);
+  renderCampTimeline(data);
+}
+
+function renderCampAccounts(data) {
+  const accts = {};
+  data.forEach(d => {
+    const slug = d.account_slug || 'unknown';
+    if (!accts[slug]) accts[slug] = 0;
+    accts[slug]++;
+  });
+  const sorted = Object.entries(accts).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(...sorted.map(s => s[1]), 1);
+
+  document.getElementById('campAccounts').innerHTML = sorted.map(([slug, count]) => {
+    const pct = (count / max * 100);
+    const isTest = slug === 'testco' || slug === 'unknown';
+    const color = isTest ? 'var(--warm)' : 'var(--cool)';
+    const label = isTest ? `${slug} <span style="font-size:10px;color:var(--muted)">(test)</span>` : slug;
+    return `<div class="heatmap-row">
+      <div class="heatmap-label">${label}</div>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar" style="width:${pct}%;background:${color}"></div></div>
+      <div class="heatmap-count">${count}</div>
     </div>`;
   }).join('');
+}
+
+function renderCampEmails(data) {
+  const emails = {};
+  data.forEach(d => {
+    const en = d.email_number || 0;
+    if (!emails[en]) emails[en] = 0;
+    emails[en]++;
+  });
+  const sorted = Object.entries(emails).sort((a, b) => Number(a[0]) - Number(b[0]));
+  const max = Math.max(...sorted.map(s => s[1]), 1);
+  const colors = ['var(--accent)', 'var(--blue)', 'var(--cool)', 'var(--warm)', 'var(--hot)'];
+
+  document.getElementById('campEmails').innerHTML = sorted.map(([en, count], i) => {
+    const pct = (count / max * 100);
+    return `<div class="heatmap-row">
+      <div class="heatmap-label">Email ${en}</div>
+      <div class="heatmap-bar-wrap"><div class="heatmap-bar" style="width:${pct}%;background:${colors[i % colors.length]}"></div></div>
+      <div class="heatmap-count">${count}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCampHourChart(data) {
+  const hours = new Array(24).fill(0);
+  data.forEach(d => { hours[new Date(d.opened_at).getHours()]++; });
+  const max = Math.max(...hours, 1);
+  document.getElementById('campHourChart').innerHTML = `<div class="hour-chart">${hours.map((c, h) => {
+    const pct = (c / max * 100), color = c > 0 ? 'var(--accent)' : 'var(--surface2)';
+    return `<div class="hour-bar-wrap"><div class="hour-bar" style="height:${Math.max(pct, 3)}%;background:${color}" title="${h}:00 — ${c} opens"></div><div class="hour-label">${h}</div></div>`;
+  }).join('')}</div>`;
+}
+
+function renderCampDayChart(data) {
+  const days = {};
+  data.forEach(d => {
+    const day = new Date(d.opened_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    if (!days[day]) days[day] = 0;
+    days[day]++;
+  });
+  const sorted = Object.entries(days).sort((a, b) => new Date(a[0]) - new Date(b[0]));
+  const max = Math.max(...sorted.map(s => s[1]), 1);
+
+  document.getElementById('campDayChart').innerHTML = sorted.length > 1
+    ? `<div class="hour-chart">${sorted.map(([day, count]) => {
+        const pct = (count / max * 100);
+        return `<div class="hour-bar-wrap"><div class="hour-bar" style="height:${Math.max(pct, 3)}%;background:var(--cool)" title="${day} — ${count} opens"></div><div class="hour-label" style="font-size:10px">${day}</div></div>`;
+      }).join('')}</div>`
+    : sorted.map(([day, count]) => `<div style="text-align:center;padding:30px 0;">
+        <div style="font-size:32px;font-weight:700;color:var(--cool)">${count}</div>
+        <div style="font-size:13px;color:var(--muted)">opens on ${day}</div>
+      </div>`).join('');
+}
+
+function renderCampAccountTable(data, sends) {
+  // Build per-account, per-email grid
+  const accts = {};
+  const emailNums = new Set();
+  data.forEach(d => {
+    const slug = d.account_slug || 'unknown';
+    const en = d.email_number || 0;
+    emailNums.add(en);
+    if (!accts[slug]) accts[slug] = {};
+    if (!accts[slug][en]) accts[slug][en] = { opens: 0, first: d.opened_at, last: d.opened_at };
+    accts[slug][en].opens++;
+    if (d.opened_at < accts[slug][en].first) accts[slug][en].first = d.opened_at;
+    if (d.opened_at > accts[slug][en].last) accts[slug][en].last = d.opened_at;
+  });
+
+  const sortedEmails = [...emailNums].sort((a, b) => a - b);
+  const sortedAccts = Object.entries(accts).sort((a, b) => {
+    const totalA = Object.values(a[1]).reduce((s, v) => s + v.opens, 0);
+    const totalB = Object.values(b[1]).reduce((s, v) => s + v.opens, 0);
+    return totalB - totalA;
+  });
+
+  const hasSends = sends.length > 0;
+
+  document.getElementById('campAccountTable').innerHTML = `<table class="vtable">
+    <thead><tr>
+      <th>Account</th>
+      ${sortedEmails.map(en => `<th style="text-align:center">Email ${en}</th>`).join('')}
+      <th style="text-align:center">Total</th>
+      <th>First Open</th>
+      <th>Last Open</th>
+    </tr></thead>
+    <tbody>${sortedAccts.map(([slug, emails]) => {
+      const isTest = slug === 'testco' || slug === 'unknown';
+      const total = Object.values(emails).reduce((s, v) => s + v.opens, 0);
+      const allOpens = Object.values(emails);
+      const firstOpen = new Date(Math.min(...allOpens.map(v => new Date(v.first))));
+      const lastOpen = new Date(Math.max(...allOpens.map(v => new Date(v.last))));
+      return `<tr${isTest ? ' style="opacity:0.5"' : ''}>
+        <td>${slug}${isTest ? ' <span style="font-size:10px;color:var(--muted)">(test)</span>' : ''}</td>
+        ${sortedEmails.map(en => {
+          const cell = emails[en];
+          if (!cell) return '<td style="text-align:center;color:var(--muted)">—</td>';
+          return `<td style="text-align:center"><span class="badge badge-open">${cell.opens}</span></td>`;
+        }).join('')}
+        <td style="text-align:center;font-weight:600">${total}</td>
+        <td style="font-size:12px;color:var(--muted)">${firstOpen.toLocaleString()}</td>
+        <td style="font-size:12px;color:var(--muted)">${timeSince(lastOpen)}</td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+
+function renderCampTimeline(data) {
+  const recent = data.slice(0, 50);
+  document.getElementById('campTimeline').innerHTML = recent.length ? recent.map(d => {
+    const time = new Date(d.opened_at).toLocaleString();
+    const isTest = d.account_slug === 'testco' || d.account_slug === 'unknown';
+    return `<div class="timeline-row"${isTest ? ' style="opacity:0.5"' : ''}>
+      <div class="timeline-time">${time}</div>
+      <div class="timeline-event">
+        <span class="badge badge-open">open</span>
+        <span class="badge badge-email">Email ${d.email_number || '?'}</span>
+        <strong>${d.account_slug || 'unknown'}</strong>
+      </div>
+      <div class="timeline-meta">${d.user_agent ? (d.user_agent.includes('GoogleImageProxy') ? 'Gmail Proxy' : 'Direct') : ''}</div>
+    </div>`;
+  }).join('') : '<div class="empty">No opens yet</div>';
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+
+// Auto-detect mode from URL hash
+if (window.location.hash === '#campaigns') {
+  activeMode = 'campaigns';
+  document.getElementById('modeProposals').classList.remove('active');
+  document.getElementById('modeCampaigns').classList.add('active');
 }
 
 loadData();
